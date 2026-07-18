@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Oracle — Sign In</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- LEFT: brand -->
+  <div class="brand">
+    <div class="brand-mark"><span class="dot"></span> ORACLE VAULT ACCESS</div>
+
+    <div class="keyhole-wrap">
+      <svg id="keyhole" viewBox="0 0 180 220">
+        <circle class="ring" cx="90" cy="84" r="60"></circle>
+        <circle class="glow" cx="90" cy="130" r="70"></circle>
+        <path class="aperture" d="
+          M 90 54
+          a 30 30 0 1 0 0.1 0
+          Z
+          M 90 84
+          L 74 150
+          L 106 150
+          Z
+        "></path>
+      </svg>
+    </div>
+
+    <div class="brand-copy">
+      <h1>One key,<br>every door.</h1>
+      <p>Sign in with your credentials or your Google account. Your session stays private, encrypted, and yours alone.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: form panel -->
+  <div class="panel" id="panel">
+
+    <div id="configWarning" class="config-warning">
+      Firebase config not set. Open this file and replace <code>firebaseConfig</code> near the bottom with your project's keys from the Firebase Console → Project Settings.
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" id="tabLogin" role="tab" aria-selected="true">Sign In</button>
+      <button class="tab" id="tabRegister" role="tab" aria-selected="false">Create Account</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginView">
+      <h2 class="headline">Welcome back</h2>
+      <p class="sub">Enter your credentials to continue.</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <div class="row-between">
+          <span></span>
+          <a href="#" id="forgotLink">Forgot password?</a>
+        </div>
+        <button type="submit" class="primary" id="loginBtn">Sign In</button>
+      </form>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerView" style="display:none;">
+      <h2 class="headline">Create your account</h2>
+      <p class="sub">Takes less than a minute.</p>
+      <form id="registerForm">
+        <div class="field">
+          <label for="registerName">Name</label>
+          <input type="text" id="registerName" placeholder="Ada Lovelace" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="registerEmail">Email</label>
+          <input type="email" id="registerEmail" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="registerPassword">Password</label>
+          <input type="password" id="registerPassword" placeholder="At least 6 characters" autocomplete="new-password" required minlength="6" />
+        </div>
+        <button type="submit" class="primary" id="registerBtn">Create Account</button>
+      </form>
+    </div>
+
+    <div class="divider">OR</div>
+
+    <button class="google" id="googleBtn">
+      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4 16.3 49.6 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.6C29.6 35.1 26.9 36 24 36c-5.3 0-9.6-3.1-11.3-7.6l-6.6 5.1C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.2 5.6l6.6 5.6C39.9 37.6 44 31.7 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="status" id="statusMsg"></div>
+
+    <!-- SIGNED IN STATE -->
+    <div class="signed-in" id="signedInView">
+      <div class="avatar-row">
+        <img id="userAvatar" src="" alt="" />
+        <div>
+          <div class="name" id="userName"></div>
+          <div class="email" id="userEmail"></div>
+        </div>
+      </div>
+      <button class="ghost" id="signOutBtn">Sign out</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Firebase SDK (compat build — simplest for a single-file setup) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>
