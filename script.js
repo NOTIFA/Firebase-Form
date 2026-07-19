@@ -3,14 +3,18 @@
   //    Get this from: Firebase Console → Project Settings → General
   //    → "Your apps" → Web app → SDK setup and configuration
   // ------------------------------------------------------------------
+
+  const isLocalDev = window.location.protocol === 'file:' || ['localhost','127.0.0.1','::1'].includes(window.location.hostname);
+
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+  apiKey: "AIzaSyDnwmntopUK-Q4sMrSOiZMcHJ79hET99aU",
+  authDomain: isLocalDev ? 'localhost' : 'oracle-e5f76.firebaseapp.com',
+  projectId: "oracle-e5f76",
+  storageBucket: "oracle-e5f76.firebasestorage.app",
+  messagingSenderId: "788621626836",
+  appId: "1:788621626836:web:d26b348def40a8a52b1a41",
+  measurementId: "G-27GQ499BM2"
+};
 
   const isConfigured = !Object.values(firebaseConfig).some(v => String(v).startsWith("YOUR_"));
   if (!isConfigured) {
@@ -69,7 +73,10 @@
       'auth/weak-password': 'Password should be at least 6 characters.',
       'auth/invalid-email': 'That email address looks invalid.',
       'auth/popup-closed-by-user': 'Google sign-in was closed before completing.',
-      'auth/invalid-credential': 'Incorrect email or password.'
+      'auth/invalid-credential': 'Incorrect email or password.',
+      'auth/configuration-not-found': isLocalDev
+        ? 'Firebase Auth needs a proper web origin. Please open this app from a local web server such as localhost:8000 and ensure localhost is allowed in Firebase Authentication.'
+        : 'Firebase Auth is not configured correctly for this site.'
     };
     return map[err.code] || err.message;
   }

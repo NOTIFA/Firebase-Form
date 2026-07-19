@@ -182,7 +182,7 @@
     font-family:'Fraunces', serif;
     font-size: 22px;
     font-weight: 500;
-    margin: 0;
+    margin: 2rem 0;
     color: var(--paper);
   }
   .sub{
